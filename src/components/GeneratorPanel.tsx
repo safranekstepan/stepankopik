@@ -19,12 +19,18 @@ export default function GeneratorPanel() {
   const [error, setError] = useState('')
   const [result, setResult] = useState('')
   const [loadedName, setLoadedName] = useState('')
+  const [loadedId, setLoadedId] = useState<number | null>(null)
+  const [editing, setEditing] = useState(false)
+  const [editDraft, setEditDraft] = useState('')
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     function onLoad(e: Event) {
       const g = (e as CustomEvent).detail
       setResult(g.result)
       setLoadedName(g.clientName)
+      setLoadedId(g.id)
+      setEditing(false)
       setClientUrl(g.clientUrl)
       setClientName(g.clientName)
       const parts = g.systems.split(',')
@@ -71,6 +77,8 @@ export default function GeneratorPanel() {
         setError(data.error || 'Generování selhalo.')
       } else {
         setResult(data.result)
+        setLoadedId(data.id)
+        setEditing(false)
         setLoadedName(clientName || new URL(clientUrl).hostname.replace('www.', ''))
         router.refresh()
       }
@@ -78,6 +86,40 @@ export default function GeneratorPanel() {
       setError('Chyba spojení.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  function handleEditStart() {
+    setEditDraft(result)
+    setEditing(true)
+  }
+
+  function handleEditCancel() {
+    setEditing(false)
+    setEditDraft('')
+  }
+
+  async function handleEditSave() {
+    if (!loadedId) return
+    setSaving(true)
+    try {
+      const res = await fetch(`/api/generation/${loadedId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ result: editDraft }),
+      })
+      if (res.ok) {
+        setResult(editDraft)
+        setEditing(false)
+        router.refresh()
+      } else {
+        const data = await res.json()
+        setError(data.error || 'Uložení selhalo.')
+      }
+    } catch {
+      setError('Chyba spojení.')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -154,13 +196,38 @@ export default function GeneratorPanel() {
           >
             {loading ? 'Generuji…' : 'Generovat'}
           </button>
-          {result && (
-            <button
-              onClick={handleDownload}
-              className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
-            >
-              Stáhnout .md
-            </button>
+          {result && !editing && (
+            <>
+              <button
+                onClick={handleEditStart}
+                className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Upravit
+              </button>
+              <button
+                onClick={handleDownload}
+                className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Stáhnout .md
+              </button>
+            </>
+          )}
+          {editing && (
+            <>
+              <button
+                onClick={handleEditSave}
+                disabled={saving}
+                className="px-4 py-2 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 disabled:opacity-50 transition-colors"
+              >
+                {saving ? 'Ukládám…' : 'Uložit'}
+              </button>
+              <button
+                onClick={handleEditCancel}
+                className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Zrušit
+              </button>
+            </>
           )}
         </div>
         {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
@@ -177,7 +244,14 @@ export default function GeneratorPanel() {
             <span className="text-sm">Studuji web a generuji copy — může to trvat 30–60 sekund…</span>
           </div>
         )}
-        {!loading && result && <ResultView markdown={result} />}
+        {!loading && result && !editing && <ResultView markdown={result} />}
+        {!loading && editing && (
+          <textarea
+            value={editDraft}
+            onChange={(e) => setEditDraft(e.target.value)}
+            className="w-full h-full min-h-[60vh] border border-gray-300 rounded-md p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          />
+        )}
         {!loading && !result && (
           <div className="text-center py-20 text-gray-400">
             <p className="text-lg mb-2">👆 Zadej URL klienta a klikni Generovat</p>

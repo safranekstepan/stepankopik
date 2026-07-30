@@ -52,6 +52,15 @@ export async function getGeneration(id: number): Promise<Generation | null> {
   return data.generations.find((g) => g.id === id) ?? null
 }
 
+export function updateGenerationResult(id: number, result: string): Promise<boolean> {
+  return update((data) => {
+    const g = data.generations.find((g) => g.id === id)
+    if (!g) return false
+    g.result = result
+    return true
+  })
+}
+
 export function addGeneration(
   clientName: string,
   clientUrl: string,
