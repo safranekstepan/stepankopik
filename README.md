@@ -1,9 +1,23 @@
-# App Vibe Kit — evisions
+# stepankopik
 
-A ready-made kit of skills for the **Vibe Coding: from idea to app** workshop.
+Interní nástroj evisions pro generování PPC reklamních podkladů.
+Zadáš URL klienta, appka prostuduje web a vygeneruje kompletní copy pro Google Ads, Meta Ads a Sklik — ve správných znakových limitech, připravené ke stažení.
 
-No code, no app — just skills and rules. You generate everything yourself from
-your own brief.
+## Stack
+Next.js + TypeScript + Tailwind, data v `data/app.json`
+
+## Local development
+```bash
+npm install
+npm run dev
+```
+
+Potřebuješ `.env.local` s:
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+---
 
 ## Quick start
 
