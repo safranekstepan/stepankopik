@@ -23,6 +23,7 @@ export default function GeneratorPanel() {
   const [editing, setEditing] = useState(false)
   const [editDraft, setEditDraft] = useState('')
   const [saving, setSaving] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     function onLoad(e: Event) {
@@ -87,6 +88,14 @@ export default function GeneratorPanel() {
     } finally {
       setLoading(false)
     }
+  }
+
+  function handleCopyLink() {
+    if (!loadedId) return
+    const url = `${window.location.origin}/generation/${loadedId}`
+    navigator.clipboard.writeText(url)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   function handleEditStart() {
@@ -198,6 +207,13 @@ export default function GeneratorPanel() {
           </button>
           {result && !editing && (
             <>
+              <button
+                onClick={handleCopyLink}
+                disabled={!loadedId}
+                className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 disabled:opacity-40 transition-colors"
+              >
+                {copied ? 'Zkopírováno!' : 'Sdílet link'}
+              </button>
               <button
                 onClick={handleEditStart}
                 className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
