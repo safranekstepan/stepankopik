@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ResultView from './ResultView'
+import { downloadExcel } from '@/lib/exportExcel'
 
 type SystemKey = 'google' | 'meta' | 'sklik'
 
@@ -219,6 +220,12 @@ export default function GeneratorPanel() {
                 className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
               >
                 Upravit
+              </button>
+              <button
+                onClick={() => downloadExcel(result, loadedName)}
+                className="px-4 py-2 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
+              >
+                Stáhnout Excel
               </button>
               <button
                 onClick={handleDownload}
