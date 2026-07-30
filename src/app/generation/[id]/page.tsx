@@ -19,12 +19,12 @@ export default async function GenerationPage({
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <header className="flex items-center justify-between px-6 py-3 bg-white border-b border-gray-200">
+      <header className="flex items-center justify-between px-6 py-3 bg-gray-900 border-b border-gray-800">
         <div className="flex items-center gap-4">
-          <Link href="/" className="text-sm text-gray-500 hover:text-gray-800 transition-colors">
+          <Link href="/" className="text-sm text-gray-400 hover:text-white transition-colors">
             ← zpět
           </Link>
-          <h1 className="text-xl font-semibold tracking-tight">stepankopik</h1>
+          <h1 className="text-xl font-semibold tracking-tight text-white">stepankopik</h1>
         </div>
         <EvisionsLogo />
       </header>
