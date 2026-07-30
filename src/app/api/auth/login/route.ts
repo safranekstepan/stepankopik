@@ -8,8 +8,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Server misconfigured.' }, { status: 500 })
   }
 
-  const a = Buffer.from(password)
-  const b = Buffer.from(process.env.APP_PASSWORD)
+  const a = Buffer.from(password.trim())
+  const b = Buffer.from(process.env.APP_PASSWORD.trim())
   const match = a.length === b.length && timingSafeEqual(a, b)
 
   if (!match) {
