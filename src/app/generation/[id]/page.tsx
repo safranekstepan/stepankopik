@@ -2,6 +2,7 @@ import { getGeneration } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import ResultView from '@/components/ResultView'
 import EvisionsLogo from '@/components/EvisionsLogo'
+import LogoutButton from '@/components/LogoutButton'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -26,7 +27,10 @@ export default async function GenerationPage({
           </Link>
           <h1 className="text-xl font-semibold tracking-tight text-white">stepankopik</h1>
         </div>
-        <EvisionsLogo />
+        <div className="flex items-center gap-4">
+          <LogoutButton />
+          <EvisionsLogo />
+        </div>
       </header>
 
       {/* Meta */}
