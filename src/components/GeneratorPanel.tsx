@@ -159,7 +159,7 @@ export default function GeneratorPanel() {
               value={clientUrl}
               onChange={(e) => setClientUrl(e.target.value)}
               placeholder="https://www.klient.cz"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div className="flex-1 min-w-36">
@@ -171,7 +171,7 @@ export default function GeneratorPanel() {
               value={clientName}
               onChange={(e) => setClientName(e.target.value)}
               placeholder="Název firmy"
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
           <div>
@@ -184,7 +184,7 @@ export default function GeneratorPanel() {
                   key={key}
                   className={`flex items-center gap-1.5 px-3 py-2 rounded-md border text-sm cursor-pointer select-none transition-colors ${
                     systems[key]
-                      ? 'bg-blue-600 border-blue-600 text-white'
+                      ? 'bg-orange-500 border-orange-500 text-white'
                       : 'bg-white border-gray-300 text-gray-600 hover:bg-gray-50'
                   }`}
                 >
@@ -202,7 +202,7 @@ export default function GeneratorPanel() {
           <button
             onClick={handleGenerate}
             disabled={loading}
-            className="px-5 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-5 py-2 bg-orange-500 text-white text-sm font-medium rounded-md hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? 'Generuji…' : 'Generovat'}
           </button>
@@ -272,7 +272,7 @@ export default function GeneratorPanel() {
           <textarea
             value={editDraft}
             onChange={(e) => setEditDraft(e.target.value)}
-            className="w-full h-full min-h-[60vh] border border-gray-300 rounded-md p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full h-full min-h-[60vh] border border-gray-300 rounded-md p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
           />
         )}
         {!loading && !result && (

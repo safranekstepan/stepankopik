@@ -37,7 +37,7 @@ export default function Sidebar({ generations }: Props) {
                 <button
                   onClick={() => handleSelect(g)}
                   className={`w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-gray-50 transition-colors ${
-                    selected === g.id ? 'bg-blue-50 border-l-2 border-l-blue-600' : ''
+                    selected === g.id ? 'bg-orange-50 border-l-2 border-l-orange-500' : ''
                   }`}
                 >
                   <p className="text-sm font-medium text-gray-800 truncate">

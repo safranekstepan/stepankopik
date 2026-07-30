@@ -1,6 +1,7 @@
 import { getGeneration } from '@/lib/data'
 import { notFound } from 'next/navigation'
 import ResultView from '@/components/ResultView'
+import EvisionsLogo from '@/components/EvisionsLogo'
 import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
@@ -25,9 +26,7 @@ export default async function GenerationPage({
           </Link>
           <h1 className="text-xl font-semibold tracking-tight">stepankopik</h1>
         </div>
-        <span className="text-sm font-bold text-blue-700 tracking-widest uppercase">
-          evisions
-        </span>
+        <EvisionsLogo />
       </header>
 
       {/* Meta */}
