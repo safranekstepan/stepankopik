@@ -9,6 +9,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'clientUrl is required' }, { status: 400 })
   }
 
+  // Guard against SSRF: only allow public HTTPS URLs
+  try {
+    const parsed = new URL(clientUrl)
+    if (parsed.protocol !== 'https:') {
+      return NextResponse.json({ error: 'Only HTTPS URLs are allowed.' }, { status: 400 })
+    }
+    const hostname = parsed.hostname
+    const isPrivate =
+      hostname === 'localhost' ||
+      hostname.startsWith('127.') ||
+      hostname.startsWith('10.') ||
+      hostname.startsWith('192.168.') ||
+      hostname.startsWith('172.') ||
+      hostname === '0.0.0.0' ||
+      hostname === '169.254.169.254'
+    if (isPrivate) {
+      return NextResponse.json({ error: 'Private/internal URLs are not allowed.' }, { status: 400 })
+    }
+  } catch {
+    return NextResponse.json({ error: 'Invalid URL.' }, { status: 400 })
+  }
+
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
     return NextResponse.json(

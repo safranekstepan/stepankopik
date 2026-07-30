@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ResultView from './ResultView'
 
@@ -19,7 +19,6 @@ export default function GeneratorPanel() {
   const [error, setError] = useState('')
   const [result, setResult] = useState('')
   const [loadedName, setLoadedName] = useState('')
-  const resultRef = useRef<string>('')
 
   useEffect(() => {
     function onLoad(e: Event) {
@@ -71,7 +70,6 @@ export default function GeneratorPanel() {
       if (!res.ok) {
         setError(data.error || 'Generování selhalo.')
       } else {
-        resultRef.current = data.result
         setResult(data.result)
         setLoadedName(clientName || new URL(clientUrl).hostname.replace('www.', ''))
         router.refresh()
