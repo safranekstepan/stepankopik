@@ -276,9 +276,27 @@ export default function GeneratorPanel() {
           />
         )}
         {!loading && !result && (
-          <div className="text-center py-20 text-gray-400">
-            <p className="text-lg mb-2">👆 Zadej URL klienta a klikni Generovat</p>
-            <p className="text-sm">nebo klikni na generování v historii vlevo</p>
+          <div className="max-w-lg mx-auto py-16">
+            <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Jak na to</p>
+            <ol className="space-y-3">
+              {[
+                { n: '1', text: 'Zadej URL webu klienta do pole nahoře (např. https://www.klient.cz)' },
+                { n: '2', text: 'Volitelně doplň název klienta — jinak ho vytáhneme z domény' },
+                { n: '3', text: 'Vyber systémy: Google Ads, Meta Ads, Sklik (nebo všechny)' },
+                { n: '4', text: 'Klikni Generovat — Claude prostuduje web a napíše copy za 30–60 sekund' },
+                { n: '5', text: 'Výsledek stáhni jako .xlsx (tabulka) nebo .md (Markdown)' },
+                { n: '6', text: 'Potřebuješ něco upravit? Klikni Upravit, změň text, ulož' },
+                { n: '7', text: 'Sdílet s kolegou? Klikni Sdílet link — zkopíruje se URL s výsledkem' },
+              ].map(({ n, text }) => (
+                <li key={n} className="flex gap-3 text-sm text-gray-600">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-orange-100 text-orange-600 font-semibold text-xs flex items-center justify-center">
+                    {n}
+                  </span>
+                  {text}
+                </li>
+              ))}
+            </ol>
+            <p className="mt-6 text-xs text-gray-400">Nebo klikni na generování v historii vlevo a načti výsledek znovu.</p>
           </div>
         )}
       </div>
